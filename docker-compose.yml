@@ -1,0 +1,38 @@
+version: "3"
+
+services:
+  activemq:
+    container_name: activemq
+    image: rmohr/activemq:5.15.9
+    ports:
+      - "61616:61616"
+      - "8161:8161"
+      - "5672:5672"
+      - "61613:61613"
+      - "1883:1883"
+      - "61614:61614"
+    networks:
+      - message-broker
+
+  castlemock:
+    container_name: castlemock
+    image: castlemock/castlemock
+    ports:
+      - "8000:8080"
+
+  solr:
+    image: solr
+    ports:
+      - "8983:8983"
+
+  couchdb:
+    image: couchdb
+    ports:
+      - "5984:5984"
+    environment:
+      - COUCHDB_USER=admin
+      - COUCHDB_PASSWORD=admin
+
+networks:
+  message-broker:
+    external: false
