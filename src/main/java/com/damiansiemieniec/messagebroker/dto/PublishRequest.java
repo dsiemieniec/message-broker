@@ -2,6 +2,7 @@ package com.damiansiemieniec.messagebroker.dto;
 
 public class PublishRequest {
     private String message;
+    private int copies;
 
     public String getMessage() {
         return message;
@@ -11,10 +12,11 @@ public class PublishRequest {
         this.message = message;
     }
 
-    @Override
-    public String toString() {
-        return "PublishRequest{" +
-                "message='" + message + '\'' +
-                '}';
+    public int getCopies() {
+        return copies;
+    }
+
+    public void setCopies(int copies) {
+        this.copies = copies;
     }
 }
