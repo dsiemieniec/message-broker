@@ -10,4 +10,11 @@ public class PublishRequest {
     public void setMessage(String message) {
         this.message = message;
     }
+
+    @Override
+    public String toString() {
+        return "PublishRequest{" +
+                "message='" + message + '\'' +
+                '}';
+    }
 }
