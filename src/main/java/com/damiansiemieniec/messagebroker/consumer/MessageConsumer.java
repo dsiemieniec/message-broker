@@ -1,7 +1,9 @@
 package com.damiansiemieniec.messagebroker.consumer;
 
 import com.damiansiemieniec.messagebroker.dto.Event;
+import com.damiansiemieniec.messagebroker.entity.Subscriber;
 import com.damiansiemieniec.messagebroker.service.EventLogger;
+import com.damiansiemieniec.messagebroker.service.SubscriberService;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.annotation.JmsListener;
@@ -15,10 +17,12 @@ import java.net.http.HttpResponse;
 
 @Component
 public class MessageConsumer {
+    private final SubscriberService subscriberService;
     private final EventLogger eventLogger;
 
     @Autowired
-    public MessageConsumer(EventLogger eventLogger) {
+    public MessageConsumer(SubscriberService subscriberService, EventLogger eventLogger) {
+        this.subscriberService = subscriberService;
         this.eventLogger = eventLogger;
     }
 
@@ -27,23 +31,28 @@ public class MessageConsumer {
         var event = Event.fromJson(new JSONObject(content));
 
         this.eventLogger.indexMessage(event, "Event consumed");
-        notifySubscriber("http://localhost:8000/castlemock/mock/rest/project/szSWBv/application/GwHaVy/some-funny-endpoint", event);
-        notifySubscriber("http://localhost:8000/castlemock/mock/rest/project/szSWBv/application/GwHaVy/slow-endpoint", event);
+        try {
+            for (var subscriber : subscriberService.findByTopic("message_broker")) {
+                notifySubscriber(subscriber, event);
+            }
+        } catch (Exception exception) {
+            this.eventLogger.indexMessage(event, exception.getMessage());
+        }
     }
 
-    private void notifySubscriber(String subscriberUrl, Event event) {
-        var client = HttpClient.newHttpClient();
-        var uri = URI.create(subscriberUrl);
-        var request = HttpRequest.newBuilder(uri)
-                .POST(HttpRequest.BodyPublishers.ofString(event.getContent()))
-                .build();
-
+    private void notifySubscriber(Subscriber subscriber, Event event) {
         try {
+            var client = HttpClient.newHttpClient();
+            var uri = URI.create(subscriber.getUrl());
+            var request = HttpRequest.newBuilder(uri)
+                    .POST(HttpRequest.BodyPublishers.ofString(event.getContent()))
+                    .build();
+
             var response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            this.eventLogger.indexMessage(event, "Subscriber " + subscriberUrl + " Response: " +  response.body());
-        } catch (IOException | InterruptedException e) {
+            this.eventLogger.indexMessage(event, "Subscriber " + subscriber.getId() + " Response: " +  response.body());
+        } catch (Exception e) {
             e.printStackTrace();
-            this.eventLogger.indexMessage(event, "Subscriber " + subscriberUrl + " Exception: " + e.getMessage());
+            this.eventLogger.indexMessage(event, "Subscriber " + subscriber.getId() + " Exception: " + e.getMessage());
         }
     }
 }

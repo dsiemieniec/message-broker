@@ -2,7 +2,7 @@ package com.damiansiemieniec.messagebroker.controller;
 
 import com.damiansiemieniec.messagebroker.dto.Event;
 import com.damiansiemieniec.messagebroker.dto.PublishRequest;
-import com.damiansiemieniec.messagebroker.dto.PublishResponse;
+import com.damiansiemieniec.messagebroker.dto.GeneralResponse;
 import com.damiansiemieniec.messagebroker.publisher.MessagePublisher;
 import com.damiansiemieniec.messagebroker.service.EventLogger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ public class PublishController {
     }
 
     @PostMapping("/publish")
-    public PublishResponse publish(@RequestBody PublishRequest request) throws IllegalArgumentException {
+    public GeneralResponse publish(@RequestBody PublishRequest request) throws IllegalArgumentException {
         if (request.getCopies() <= 0) {
             throw new IllegalArgumentException();
         }
@@ -34,6 +34,6 @@ public class PublishController {
             this.eventLogger.indexMessage(event, "Event published");
         }
 
-        return new PublishResponse(true, request.getMessage());
+        return new GeneralResponse(true, request.getMessage());
     }
 }
