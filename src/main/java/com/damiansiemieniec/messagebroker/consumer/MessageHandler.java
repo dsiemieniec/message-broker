@@ -5,31 +5,27 @@ import com.damiansiemieniec.messagebroker.entity.Subscriber;
 import com.damiansiemieniec.messagebroker.service.EventLogger;
 import com.damiansiemieniec.messagebroker.service.SubscriberService;
 import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jms.annotation.JmsListener;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
-@Component
-public class MessageConsumer {
+@Service
+public class MessageHandler {
     private final SubscriberService subscriberService;
     private final EventLogger eventLogger;
 
-    @Autowired
-    public MessageConsumer(SubscriberService subscriberService, EventLogger eventLogger) {
+    public MessageHandler(SubscriberService subscriberService, EventLogger eventLogger) {
         this.subscriberService = subscriberService;
         this.eventLogger = eventLogger;
     }
 
-    @JmsListener(destination = "message_broker")
-    public void processMessage(String content) {
-        var event = Event.fromJson(new JSONObject(content));
+    public void onMessage(JSONObject message) {
+        var event = Event.fromJson(message);
 
-        this.eventLogger.indexMessage(event, "Event consumed");
+        this.eventLogger.indexMessage(event, "Event consumed " + event.getContent());
         try {
             for (var subscriber : subscriberService.findByTopic("message_broker")) {
                 notifySubscriber(subscriber, event);
