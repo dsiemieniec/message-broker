@@ -12,7 +12,7 @@ import java.util.List;
 public class SubscriberRepository extends CouchDbRepositorySupport<Subscriber> {
     public SubscriberRepository(CouchDbConnector db) {
         super(Subscriber.class, db);
-        initStandardDesignDocument();
+        //initStandardDesignDocument();
     }
 
     @GenerateView

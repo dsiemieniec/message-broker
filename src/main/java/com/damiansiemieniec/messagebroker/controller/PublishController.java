@@ -6,9 +6,7 @@ import com.damiansiemieniec.messagebroker.dto.GeneralResponse;
 import com.damiansiemieniec.messagebroker.publisher.MessagePublisher;
 import com.damiansiemieniec.messagebroker.service.EventLogger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class PublishController {
@@ -22,15 +20,15 @@ public class PublishController {
         this.eventLogger = eventLogger;
     }
 
-    @PostMapping("/publish")
-    public GeneralResponse publish(@RequestBody PublishRequest request) throws IllegalArgumentException {
+    @PostMapping("/publish/{topic}")
+    public GeneralResponse publish(@PathVariable String topic, @RequestBody PublishRequest request) throws IllegalArgumentException {
         if (request.getCopies() <= 0) {
             throw new IllegalArgumentException();
         }
 
         for (int i = 0; i < request.getCopies(); i++) {
             var event = new Event("#" + (i+1) + " " + request.getMessage());
-            publisher.publish(event.toJson().toString());
+            publisher.publish(topic, event.toJson().toString());
             this.eventLogger.indexMessage(event, "Event published");
         }
 

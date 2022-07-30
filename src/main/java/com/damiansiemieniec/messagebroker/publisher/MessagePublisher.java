@@ -13,7 +13,7 @@ public class MessagePublisher {
         this.jms = jms;
     }
 
-    public void publish(String message) {
-        this.jms.convertAndSend("message_broker", message);
+    public void publish(String topic, String message) {
+        this.jms.convertAndSend(topic, message);
     }
 }
