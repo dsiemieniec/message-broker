@@ -12,7 +12,6 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.sql.Time;
 import java.util.UUID;
 
 @Component
@@ -20,25 +19,32 @@ public class MessageConsumer {
     @JmsListener(destination = "message_broker")
     public void processMessage(String content) {
         UUID uuid = UUID.randomUUID();
-
         indexMessage("Received message: " + content, uuid);
+        notifySubscriber("http://localhost:8000/castlemock/mock/rest/project/szSWBv/application/GwHaVy/some-funny-endpoint", content, uuid);
+        notifySubscriber("http://localhost:8000/castlemock/mock/rest/project/szSWBv/application/GwHaVy/slow-endpoint", content, uuid);
+    }
 
+    private void notifySubscriber(String subscriberUrl,  String content, UUID eventId) {
         var client = HttpClient.newHttpClient();
-        var uri = URI.create("http://localhost:8000/castlemock/mock/rest/project/szSWBv/application/GwHaVy/some-funny-endpoint");
+        var uri = URI.create(subscriberUrl);
         var request = HttpRequest.newBuilder(uri)
                 .POST(HttpRequest.BodyPublishers.ofString(content))
                 .build();
 
         try {
             var response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            indexMessage("Subscriber response: " +  response.body(), uuid);
+            indexMessage("Subscriber response: " +  response.body(), eventId, subscriberUrl);
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
-            indexMessage("Exception: " + e.getMessage(), uuid);
+            indexMessage("Exception: " + e.getMessage(), eventId, subscriberUrl);
         }
     }
 
     private void indexMessage(String message, UUID uuid) {
+        indexMessage(message, uuid, null);
+    }
+
+    private void indexMessage(String message, UUID uuid, String subscriberUrl) {
         System.out.println(uuid.toString() +  " " + message);
 
         final String solrUrl = "http://localhost:8983/solr";
@@ -51,6 +57,7 @@ public class MessageConsumer {
         doc.addField("event_id", uuid.toString());
         doc.addField("message", message);
         doc.addField("timestamp", System.currentTimeMillis());
+        doc.addField("subscriber_url", subscriberUrl);
 
         try {
             final UpdateResponse updateResponse = client.add("gettingstarted", doc);
