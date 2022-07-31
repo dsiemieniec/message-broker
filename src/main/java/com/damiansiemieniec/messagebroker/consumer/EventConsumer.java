@@ -5,7 +5,7 @@ import org.json.JSONObject;
 
 import javax.jms.*;
 
-public class EventConsumer implements Runnable, javax.jms.ExceptionListener {
+public class EventConsumer implements Runnable, ExceptionListener {
 
     private final ActiveMQConnectionFactory connectionFactory;
     private final String topic;

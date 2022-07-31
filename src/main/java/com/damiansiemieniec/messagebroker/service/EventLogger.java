@@ -2,22 +2,21 @@ package com.damiansiemieniec.messagebroker.service;
 
 import com.damiansiemieniec.messagebroker.dto.Event;
 import org.apache.solr.client.solrj.SolrServerException;
-import org.apache.solr.client.solrj.impl.HttpSolrClient;
+import org.apache.solr.client.solrj.impl.Http2SolrClient;
 import org.apache.solr.client.solrj.response.UpdateResponse;
 import org.apache.solr.common.SolrInputDocument;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 
 @Service
 public class EventLogger {
-    private final HttpSolrClient client;
+    private final Http2SolrClient client;
 
-    public EventLogger() {
-        client = new HttpSolrClient.Builder("http://localhost:8983/solr")
-                .withConnectionTimeout(10000)
-                .withSocketTimeout(60000)
-                .build();
+    @Autowired
+    public EventLogger(Http2SolrClient client) {
+        this.client = client;
     }
 
     public void indexMessage(Event event, String message) {
