@@ -2,8 +2,6 @@ package com.damiansiemieniec.messagebroker.domain.service;
 
 import com.damiansiemieniec.messagebroker.domain.entity.Event;
 import com.damiansiemieniec.messagebroker.domain.entity.Subscriber;
-import com.damiansiemieniec.messagebroker.domain.service.EventLogger;
-import com.damiansiemieniec.messagebroker.domain.service.SubscriberService;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 

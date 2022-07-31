@@ -1,4 +1,4 @@
-package com.damiansiemieniec.messagebroker.application.configuration;
+package com.damiansiemieniec.messagebroker.infrastructure.configuration;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.solr.client.solrj.impl.Http2SolrClient;

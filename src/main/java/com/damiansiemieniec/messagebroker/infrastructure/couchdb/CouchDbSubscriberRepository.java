@@ -1,4 +1,4 @@
-package com.damiansiemieniec.messagebroker.infrastructure.repository;
+package com.damiansiemieniec.messagebroker.infrastructure.couchdb;
 
 import com.damiansiemieniec.messagebroker.domain.entity.Subscriber;
 import com.damiansiemieniec.messagebroker.domain.repository.SubscriberRepository;
