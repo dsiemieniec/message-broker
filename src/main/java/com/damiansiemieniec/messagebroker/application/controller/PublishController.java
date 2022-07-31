@@ -2,9 +2,7 @@ package com.damiansiemieniec.messagebroker.application.controller;
 
 import com.damiansiemieniec.messagebroker.application.dto.GeneralResponse;
 import com.damiansiemieniec.messagebroker.application.dto.PublishRequest;
-import com.damiansiemieniec.messagebroker.domain.entity.Event;
-import com.damiansiemieniec.messagebroker.domain.service.EventLogger;
-import com.damiansiemieniec.messagebroker.domain.service.MessagePublisher;
+import com.damiansiemieniec.messagebroker.domain.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,14 +11,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class PublishController {
-
-    private final MessagePublisher publisher;
-    private final EventLogger eventLogger;
+    private final EventService service;
 
     @Autowired
-    public PublishController(MessagePublisher publisher, EventLogger eventLogger) {
-        this.publisher = publisher;
-        this.eventLogger = eventLogger;
+    public PublishController(EventService service) {
+
+        this.service = service;
     }
 
     @PostMapping("/publish/{topic}")
@@ -30,9 +26,7 @@ public class PublishController {
         }
 
         for (int i = 0; i < request.getCopies(); i++) {
-            var event = new Event("#" + (i+1) + " " + request.getMessage());
-            publisher.publish(topic, event.toJson().toString());
-            this.eventLogger.indexMessage(event, "Event published");
+            this.service.publish(topic, "#" + (i+1) + " " + request.getMessage());
         }
 
         return new GeneralResponse(true, request.getMessage());

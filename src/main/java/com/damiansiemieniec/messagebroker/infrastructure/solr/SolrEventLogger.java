@@ -20,7 +20,7 @@ public class SolrEventLogger implements EventLogger {
         this.client = client;
     }
 
-    public void indexMessage(Event event, String message) {
+    public void log(Event event, String message) {
         System.out.println(event.getId().toString() +  " " + message);
 
         final SolrInputDocument doc = new SolrInputDocument();

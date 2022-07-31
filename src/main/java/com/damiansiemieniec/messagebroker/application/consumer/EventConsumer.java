@@ -1,6 +1,5 @@
 package com.damiansiemieniec.messagebroker.application.consumer;
 
-import com.damiansiemieniec.messagebroker.domain.service.MessageHandler;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.json.JSONObject;
 
@@ -45,7 +44,7 @@ public class EventConsumer implements Runnable, ExceptionListener {
     private void onMessage(Message message) throws JMSException {
         if (message instanceof TextMessage textMessage) {
             var json = new JSONObject(textMessage.getText());
-            messageHandler.onMessage(json);
+            messageHandler.onMessage(topic, json);
         } else {
             System.out.println("Received " + message.toString());
         }

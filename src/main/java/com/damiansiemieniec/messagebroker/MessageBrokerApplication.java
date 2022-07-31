@@ -1,7 +1,7 @@
 package com.damiansiemieniec.messagebroker;
 
 import com.damiansiemieniec.messagebroker.domain.service.ConsumerManager;
-import com.damiansiemieniec.messagebroker.domain.service.MessageHandler;
+import com.damiansiemieniec.messagebroker.application.consumer.MessageHandler;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
