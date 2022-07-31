@@ -2,6 +2,7 @@ package com.damiansiemieniec.messagebroker.domain.service;
 
 import com.damiansiemieniec.messagebroker.domain.entity.Event;
 import com.damiansiemieniec.messagebroker.domain.entity.Subscriber;
+import com.damiansiemieniec.messagebroker.infrastructure.solr.SolrEventLogger;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
@@ -13,9 +14,9 @@ import java.net.http.HttpResponse;
 @Service
 public class MessageHandler {
     private final SubscriberService subscriberService;
-    private final EventLogger eventLogger;
+    private final SolrEventLogger eventLogger;
 
-    public MessageHandler(SubscriberService subscriberService, EventLogger eventLogger) {
+    public MessageHandler(SubscriberService subscriberService, SolrEventLogger eventLogger) {
         this.subscriberService = subscriberService;
         this.eventLogger = eventLogger;
     }
