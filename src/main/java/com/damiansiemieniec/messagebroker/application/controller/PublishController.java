@@ -3,7 +3,7 @@ package com.damiansiemieniec.messagebroker.application.controller;
 import com.damiansiemieniec.messagebroker.domain.entity.Event;
 import com.damiansiemieniec.messagebroker.application.dto.PublishRequest;
 import com.damiansiemieniec.messagebroker.application.dto.GeneralResponse;
-import com.damiansiemieniec.messagebroker.domain.publisher.MessagePublisher;
+import com.damiansiemieniec.messagebroker.domain.service.MessagePublisher;
 import com.damiansiemieniec.messagebroker.domain.service.EventLogger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

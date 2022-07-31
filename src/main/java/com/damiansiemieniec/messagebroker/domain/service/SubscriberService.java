@@ -20,7 +20,7 @@ public class SubscriberService {
         var subscriber = new Subscriber();
         subscriber.setTopic(topic);
         subscriber.setUrl(url);
-        subscriberRepository.add(subscriber);
+        subscriberRepository.save(subscriber);
     }
 
     public List<Subscriber> findByTopic(String topic) {
