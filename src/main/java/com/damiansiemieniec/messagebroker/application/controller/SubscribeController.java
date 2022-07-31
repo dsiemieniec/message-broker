@@ -1,8 +1,8 @@
-package com.damiansiemieniec.messagebroker.controller;
+package com.damiansiemieniec.messagebroker.application.controller;
 
-import com.damiansiemieniec.messagebroker.dto.AddSubscriberRequest;
-import com.damiansiemieniec.messagebroker.dto.GeneralResponse;
-import com.damiansiemieniec.messagebroker.service.SubscriberService;
+import com.damiansiemieniec.messagebroker.application.dto.AddSubscriberRequest;
+import com.damiansiemieniec.messagebroker.application.dto.GeneralResponse;
+import com.damiansiemieniec.messagebroker.domain.service.SubscriberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

@@ -1,4 +1,4 @@
-package com.damiansiemieniec.messagebroker.configuration;
+package com.damiansiemieniec.messagebroker.application.configuration;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.solr.client.solrj.impl.Http2SolrClient;
@@ -29,7 +29,6 @@ public class AppConfig {
     private String couchdbDatabaseName;
     @Value("${message-broker.solr.base-url}")
     private String solrBaseUrl;
-
 
     @Bean
     public ActiveMQConnectionFactory connectionFactory() {

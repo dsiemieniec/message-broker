@@ -1,6 +1,6 @@
-package com.damiansiemieniec.messagebroker.repository;
+package com.damiansiemieniec.messagebroker.domain.repository;
 
-import com.damiansiemieniec.messagebroker.entity.Subscriber;
+import com.damiansiemieniec.messagebroker.domain.entity.Subscriber;
 import org.ektorp.CouchDbConnector;
 import org.ektorp.support.CouchDbRepositorySupport;
 import org.ektorp.support.GenerateView;

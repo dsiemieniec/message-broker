@@ -1,4 +1,4 @@
-package com.damiansiemieniec.messagebroker.dto;
+package com.damiansiemieniec.messagebroker.domain.entity;
 
 import org.json.JSONObject;
 

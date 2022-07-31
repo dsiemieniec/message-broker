@@ -1,6 +1,6 @@
-package com.damiansiemieniec.messagebroker.service;
+package com.damiansiemieniec.messagebroker.domain.service;
 
-import com.damiansiemieniec.messagebroker.dto.Event;
+import com.damiansiemieniec.messagebroker.domain.entity.Event;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.Http2SolrClient;
 import org.apache.solr.client.solrj.response.UpdateResponse;

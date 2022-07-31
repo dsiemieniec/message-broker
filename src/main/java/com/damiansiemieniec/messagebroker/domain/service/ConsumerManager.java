@@ -1,5 +1,6 @@
-package com.damiansiemieniec.messagebroker.consumer;
+package com.damiansiemieniec.messagebroker.domain.service;
 
+import com.damiansiemieniec.messagebroker.application.consumer.EventConsumer;
 import org.apache.activemq.ActiveMQConnectionFactory;
 
 import java.util.HashMap;

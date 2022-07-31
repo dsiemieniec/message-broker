@@ -1,4 +1,4 @@
-package com.damiansiemieniec.messagebroker.dto;
+package com.damiansiemieniec.messagebroker.application.dto;
 
 public class GeneralResponse {
     private final boolean success;

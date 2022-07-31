@@ -1,5 +1,6 @@
-package com.damiansiemieniec.messagebroker.consumer;
+package com.damiansiemieniec.messagebroker.application.consumer;
 
+import com.damiansiemieniec.messagebroker.domain.service.MessageHandler;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.json.JSONObject;
 

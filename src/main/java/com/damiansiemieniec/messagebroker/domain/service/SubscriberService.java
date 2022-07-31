@@ -1,7 +1,7 @@
-package com.damiansiemieniec.messagebroker.service;
+package com.damiansiemieniec.messagebroker.domain.service;
 
-import com.damiansiemieniec.messagebroker.entity.Subscriber;
-import com.damiansiemieniec.messagebroker.repository.SubscriberRepository;
+import com.damiansiemieniec.messagebroker.domain.entity.Subscriber;
+import com.damiansiemieniec.messagebroker.domain.repository.SubscriberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

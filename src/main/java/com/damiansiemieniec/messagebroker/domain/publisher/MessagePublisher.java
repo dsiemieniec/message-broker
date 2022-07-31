@@ -1,4 +1,4 @@
-package com.damiansiemieniec.messagebroker.publisher;
+package com.damiansiemieniec.messagebroker.domain.publisher;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsTemplate;
