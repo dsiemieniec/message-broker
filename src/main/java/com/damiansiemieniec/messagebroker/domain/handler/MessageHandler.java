@@ -1,4 +1,4 @@
-package com.damiansiemieniec.messagebroker.application.consumer;
+package com.damiansiemieniec.messagebroker.domain.handler;
 
 import com.damiansiemieniec.messagebroker.domain.entity.Event;
 import com.damiansiemieniec.messagebroker.domain.service.EventLogger;

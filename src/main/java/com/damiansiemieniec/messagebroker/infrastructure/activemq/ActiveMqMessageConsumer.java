@@ -1,17 +1,22 @@
-package com.damiansiemieniec.messagebroker.application.consumer;
+package com.damiansiemieniec.messagebroker.infrastructure.activemq;
 
+import com.damiansiemieniec.messagebroker.domain.consumer.EventConsumer;
+import com.damiansiemieniec.messagebroker.domain.handler.MessageHandler;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.json.JSONObject;
 
 import javax.jms.*;
 
-public class EventConsumer implements Runnable, ExceptionListener {
-
+public class ActiveMqMessageConsumer implements EventConsumer, ExceptionListener {
     private final ActiveMQConnectionFactory connectionFactory;
     private final String topic;
     private final MessageHandler messageHandler;
 
-    public EventConsumer(ActiveMQConnectionFactory connectionFactory, String topic, MessageHandler messageHandler) {
+    public ActiveMqMessageConsumer(
+            ActiveMQConnectionFactory connectionFactory,
+            String topic,
+            MessageHandler messageHandler
+    ) {
         this.connectionFactory = connectionFactory;
         this.topic = topic;
         this.messageHandler = messageHandler;

@@ -1,27 +1,23 @@
 package com.damiansiemieniec.messagebroker.domain.service;
 
-import com.damiansiemieniec.messagebroker.application.consumer.MessageHandler;
-import com.damiansiemieniec.messagebroker.application.consumer.EventConsumer;
-import org.apache.activemq.ActiveMQConnectionFactory;
+import com.damiansiemieniec.messagebroker.domain.consumer.EventConsumer;
+import com.damiansiemieniec.messagebroker.domain.consumer.EventConsumerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class ConsumerManager {
     private static ConsumerManager instance;
-
-    private final ActiveMQConnectionFactory connectionFactory;
-    private final MessageHandler messageHandler;
     private final Map<String, Thread> consumers = new HashMap<>();
+    private final EventConsumerFactory eventConsumerFactory;
 
-    private ConsumerManager(ActiveMQConnectionFactory connectionFactory, MessageHandler messageHandler) {
-        this.connectionFactory = connectionFactory;
-        this.messageHandler = messageHandler;
+    private ConsumerManager(EventConsumerFactory eventConsumerFactory) {
+        this.eventConsumerFactory = eventConsumerFactory;
     }
 
-    public static ConsumerManager getInstance(ActiveMQConnectionFactory connectionFactory, MessageHandler messageHandler) {
+    public static ConsumerManager getInstance(EventConsumerFactory eventConsumerFactory) {
         if (instance == null) {
-            instance = new ConsumerManager(connectionFactory, messageHandler);
+            instance = new ConsumerManager(eventConsumerFactory);
         }
 
         return instance;
@@ -36,7 +32,7 @@ public class ConsumerManager {
     }
 
     private EventConsumer createConsumer(String topic) {
-        return new EventConsumer(connectionFactory, topic, messageHandler);
+        return this.eventConsumerFactory.create(topic);
     }
 
     private Thread createThread(Runnable runnable) {
