@@ -38,6 +38,12 @@ services:
       - COUCHDB_USER=admin
       - COUCHDB_PASSWORD=admin
 
+  cassandra:
+    image: bitnami/cassandra:latest
+    ports:
+      - "7000:7000"
+      - "9042:9042"
+
 networks:
   message-broker:
     external: false

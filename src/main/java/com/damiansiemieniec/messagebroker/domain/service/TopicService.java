@@ -8,6 +8,8 @@ import com.damiansiemieniec.messagebroker.domain.repository.TopicRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class TopicService {
     private final TopicRepository topicRepository;
@@ -30,5 +32,9 @@ public class TopicService {
         this.topicRepository.save(newTopic);
 
         this.publisher.publish(new TopicCreated(this, newTopic));
+    }
+
+    public List<Topic> findAll() {
+        return this.topicRepository.findAll();
     }
 }

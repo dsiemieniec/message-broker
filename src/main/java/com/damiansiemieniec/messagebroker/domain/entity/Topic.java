@@ -1,31 +1,22 @@
 package com.damiansiemieniec.messagebroker.domain.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.data.cassandra.core.mapping.PrimaryKey;
+import org.springframework.data.cassandra.core.mapping.Table;
 
-@JsonIgnoreProperties({"id", "revision"})
+import java.util.UUID;
+
+@Table
 public class Topic {
-    @JsonProperty("_id")
-    private String id;
-    @JsonProperty("_rev")
-    private String revision;
-    @JsonProperty("name")
+    @PrimaryKey
+    private UUID id;
     private String name;
 
-    public String getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(UUID id) {
         this.id = id;
-    }
-
-    public String getRevision() {
-        return revision;
-    }
-
-    public void setRevision(String revision) {
-        this.revision = revision;
     }
 
     public String getName() {

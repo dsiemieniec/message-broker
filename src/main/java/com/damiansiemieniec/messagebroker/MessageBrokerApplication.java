@@ -1,6 +1,7 @@
 package com.damiansiemieniec.messagebroker;
 
 import com.damiansiemieniec.messagebroker.domain.consumer.EventConsumerFactory;
+import com.damiansiemieniec.messagebroker.domain.repository.TopicRepository;
 import com.damiansiemieniec.messagebroker.domain.service.ConsumerManager;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -17,12 +18,14 @@ public class MessageBrokerApplication {
     }
 
     @Bean
-    CommandLineRunner commandLineRunner(EventConsumerFactory consumerFactory) {
+    CommandLineRunner commandLineRunner(EventConsumerFactory consumerFactory, TopicRepository topicRepository) {
         return args -> {
-            System.out.println("Starting consumers for defined topics...");
             var manager = ConsumerManager.getInstance(consumerFactory);
-            manager.startConsumer("message_broker");
-            manager.startConsumer("second_topic");
+            System.out.println("Starting consumers for defined topics...");
+            for (var topic : topicRepository.findAll()) {
+                manager.startConsumer(topic.getName());
+            }
+
             System.out.println("Consumers started.");
         };
     }
