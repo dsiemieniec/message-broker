@@ -29,15 +29,6 @@ services:
       - solr-precreate
       - gettingstarted
 
-  couchdb:
-    image: couchdb
-    container_name: couchdb
-    ports:
-      - "5984:5984"
-    environment:
-      - COUCHDB_USER=admin
-      - COUCHDB_PASSWORD=admin
-
   cassandra:
     image: bitnami/cassandra:latest
     ports:
