@@ -1,0 +1,79 @@
+openapi: 3.0.3
+info:
+  title: Message broker
+  description: Message broker
+  version: 1.0.0
+servers:
+  - url: 'http://localhost:8080'
+paths:
+  /groups:
+    put:
+      summary: Create group
+      tags:
+        - Groups
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateGroupRequest'
+      responses:
+        201:
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralResponse'
+              example:
+                success: true
+                message: Created
+        400:
+          description: Invalid request body
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralResponse'
+              example:
+                success: false
+                message: Invalid format of a group name
+        409:
+          description: Group with requested name already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralResponse'
+              example:
+                success: false
+                message: Group with this name already exists
+        500:
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneralResponse'
+              example:
+                success: false
+                message: Internal server error
+components:
+  schemas:
+    GeneralResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+    CreateGroupRequest:
+      type: object
+      properties:
+        name:
+          required: true
+          type: string
+          maxLength: 100
+          minLength: 1
+          pattern: ^[a-zA-Z0-9_-]*$
+        description:
+          required: true
+          type: string
+          minLength: 0
+          maxLength: 200
+

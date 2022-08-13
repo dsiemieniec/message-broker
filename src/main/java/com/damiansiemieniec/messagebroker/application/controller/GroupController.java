@@ -33,7 +33,8 @@ public class GroupController {
         } catch (DuplicateException e) {
             return new ResponseEntity<>(new GeneralResponse(false, e.getMessage()), HttpStatus.CONFLICT);
         } catch (Exception e) {
-            return new ResponseEntity<>(new GeneralResponse(false, e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+            e.printStackTrace();
+            return new ResponseEntity<>(new GeneralResponse(false, "Internal server error"), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }
