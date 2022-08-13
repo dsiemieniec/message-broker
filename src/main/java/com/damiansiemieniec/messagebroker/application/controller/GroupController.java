@@ -2,8 +2,9 @@ package com.damiansiemieniec.messagebroker.application.controller;
 
 import com.damiansiemieniec.messagebroker.application.dto.CreateGroupRequest;
 import com.damiansiemieniec.messagebroker.application.dto.GeneralResponse;
+import com.damiansiemieniec.messagebroker.domain.command.CreateGroupCommand;
 import com.damiansiemieniec.messagebroker.domain.exception.DuplicateException;
-import com.damiansiemieniec.messagebroker.domain.service.GroupService;
+import com.damiansiemieniec.messagebroker.domain.handler.CommandHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,17 +16,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/groups")
 public class GroupController {
-    private final GroupService groupService;
+    private final CommandHandler<CreateGroupCommand> createGroupHandler;
 
     @Autowired
-    public GroupController(GroupService groupService) {
-        this.groupService = groupService;
+    public GroupController(CommandHandler<CreateGroupCommand> createGroupHandler) {
+        this.createGroupHandler = createGroupHandler;
     }
 
     @PutMapping("")
     public ResponseEntity<GeneralResponse> createGroup(@RequestBody CreateGroupRequest request) {
         try {
-            this.groupService.create(request.getName(), request.getDescription());
+            this.createGroupHandler.handle(new CreateGroupCommand(request.getName(), request.getDescription()));
 
             return new ResponseEntity<>(new GeneralResponse(true, "Created"), HttpStatus.CREATED);
         } catch (IllegalArgumentException e) {
